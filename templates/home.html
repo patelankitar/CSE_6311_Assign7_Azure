@@ -1,0 +1,141 @@
+{% extends 'base1.html' %}
+{% block title %}Questions & Answers{% endblock %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+  var intervalId1 = null;
+  var intervalId2 = null;
+  var intervalId3 = null;
+
+  intervalId1 = setInterval('updateTemp(1, "#div1")', 1000 * 1);
+  console.log(intervalId1);
+
+  intervalId2 = setInterval('GameTimer(1, "#div1")', 1000 * 1);
+  console.log(intervalId2);
+
+  var countDownDate = new Date().getTime()+ 1 * 30000;
+
+  function updateTemp(gauge_id, selector) {
+    
+    $.getJSON('/ChekUsers', function(json){
+      console.log('logging ChekUsers');
+      var question = jQuery.parseJSON(json);
+      console.log(question);
+      
+      if(question)
+      {
+          console.log("div1");
+          console.log(intervalId1);
+          $("#div1").empty();
+          $("#div1").append("<br/><strong> <h1> All users joined , ready to start the game !!!!</strong> </h1><br/> ");
+          
+          var elem = document.getElementById('navDiv');
+          elem.style.visibility = 'visible';
+          
+          var now = new Date().getTime();
+          countDownDate = new Date().getTime()+ 1 * 30000;
+          $("#texens").val(countDownDate);
+          
+          clearInterval(intervalId1);
+      }
+    });
+  }
+
+
+  function GameTimer(gauge_id, selector) {
+    console.log('logging GameTimer');
+    
+      $.getJSON('/timer', function(json_data){
+        //alert('1');
+        console.log('logging GameTimer');
+        console.log(json_data['seconds']);
+
+        if(json_data['timeUp'])
+        {
+          clearInterval(intervalId2);
+          $("#timerDiv").empty();
+          $("#timerDiv").append("<br/><strong> <h1> Time Up !!! </strong> </h1><br/> ");
+          $("#timeField").val("timeUp");
+          alert('Time Up !');
+          
+          var mainDiv = document.getElementById('mainDiv');
+          elem.style.visibility = 'hidden';
+
+          var exitDiv = document.getElementById('exitDiv');
+          elem.style.visibility = 'visible';
+          
+        }
+
+        else 
+        {
+          $("#timerDiv").empty();
+          $("#timerDiv").append("<br/><strong> <h1> Time Remaining "+ json_data['seconds'] +"seconds </strong> </h1><br/> ");
+        }
+      });
+    
+     
+    }
+
+  </script>
+ 
+      <input type="hidden" id="timeField" name="timeField" value="" />
+
+      <div id="exitDiv" style="visibility:  hidden;">
+        <a href="{{ url_for('results', role=role) }}">View Results </a>
+      </div>
+
+      <div id="mainDiv" style="visibility:  visible;">
+ 
+      <div class="div1" id="div1"> 
+        Please wait for other users to join...</div>
+
+        <div class="timerDiv" id="timerDiv"> 
+        </div>
+
+        {% if role %}
+      <h1>
+        You are logged in as : {{role}}
+      </h1>
+      {% endif %}
+
+      <div id ="navDiv" class="tab" style="visibility: hidden;">
+        {% if role|string() == 'teacher' %}
+          <a href="{{ url_for('ask', role=role) }}">Ask Question</a>
+          <a href="{{ url_for('answered', role=role) }}">Give score</a>
+        {% endif %}
+        {% if role|string() == 'student' %}
+          <a href="{{ url_for('unanswered', role=role) }}">Unanswered Questions</a>
+        {% endif %}
+        {% if role|string() == 'admin' %}
+          <a href="{{ url_for('unanswered', role=role) }}">Unanswered Questions</a>
+          <a href="{{ url_for('hintRequested', role=role) }}">Hint Requested By Student</a>
+        {% endif %}
+
+        <a href="{{ url_for('results', role=role) }}">End Game and Exit</a>
+
+      </div>
+  
+      {% if questions %}
+      <div class="page-header">
+        <h1>Answered Questions</h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="list-group">
+            {% for question in questions %}
+              <div class="jumbotron">
+                <h1>{{ question.question }}</h1>
+                <p>Answer : {{ question.answer }}</p>
+                <p>Score : {{ question.score }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div><!-- /.col-lg-12 -->
+      </div>
+      {% endif %}
+    </div>
+
+{% endblock %}

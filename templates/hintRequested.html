@@ -1,0 +1,24 @@
+{% extends 'base1.html' %}
+
+{% block title %}Hint Requested By Student {% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+      <h1>Questions For You</h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="list-group" id="list-group">
+            {% for question in hintRequested_questions %}
+
+              <a href="{{ url_for('hint', question_id=question.id, role=role) }}" class="list-group-item">
+                <h4 class="list-group-item-heading">{{ question.question }}</h4>
+              </a>
+          
+            {% endfor %}
+          </div>
+        </div><!-- /.col-lg-12 -->
+      </div>
+     
+{% endblock %}

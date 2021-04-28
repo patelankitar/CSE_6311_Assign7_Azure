@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css//style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"> 
+    
+    <title>{% block title %} {% endblock %}</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+    <script type="text/javascript"></script>
+    {% block scripts %} {% endblock %}</script>
+    <style>{% block styles %} {% endblock %}</style>
+  </head>
+  <body>
+    <table style="text-decoration: darkgray;">
+      <tr>
+          <td style="padding-left:600px;"">
+            CSE 6331 : Cloud Computing -  Assignment 7
+          </td>
+      </tr>
+      <tr>
+          <td style="padding-left:650px;"">
+            Ankita Ramjibhai Patel - 1001790796
+          </td>
+      </tr>
+      </table>
+
+    <div class="tab">
+     
+     
+    </div>
+
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+
+  </body>
+</html>

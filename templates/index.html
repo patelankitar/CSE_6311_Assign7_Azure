@@ -1,0 +1,65 @@
+{% extends 'base1.html' %}
+
+
+
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+<script>
+  var Seconds = 120;
+</script>
+
+
+
+
+<script type="text/javascript" src="http://api.forismatic.com/api/1.0/?method=getQuote&amp;format=jsonp&amp;lang=en&amp;jsonp=parseQuote" async></script>
+
+
+    <table>
+    <tr>
+        <td>
+            <h1>
+                CSE 6331 : Cloud Computing -  Assignment 7
+            </h1>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2>
+                Ankita Ramjibhai Patel  1001790796
+            </h2>
+        </td>
+    </tr>
+    </table>
+<br/>
+<br/>
+<hr/>
+<br/>
+<br/>
+
+
+    <form id="index" action="home" method="POST">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <h2>Login to Game as : </h2>
+                </td>
+                <td>
+                    <select name="roleSelect" id="roleSelect" style="width: 200px;">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" name="search" id="search" value="Start">
+                </td>
+            </tr>
+        </table>
+        </form>
+   
+{% endblock %}
+

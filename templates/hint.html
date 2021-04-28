@@ -2,6 +2,7 @@
 {% block title %} Provide Hint for a Question{% endblock %}
 
 {% block content %}
+{% for question in questions %}
       <div class="page-header">
         <h1>{{ question.question }}</h1>
       </div>
@@ -29,4 +30,5 @@
           </div>
         </div>
       </div>
+      {% endfor %}
 {% endblock %}

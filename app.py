@@ -283,12 +283,12 @@ def hint(question_id,role):
         }
         return render_template('home.html',role=role,  **context)
     
-    sql = "Select * from [dbo].[Questions] where id = " + question_id
+    sql = "Select * from [dbo].[Questions] where id = " + str(question_id)
     cursor.execute(sql)
-    question = cursor.fetchall()
+    questions = cursor.fetchall()
 
     context = {
-        'question' : question
+        'questions' : questions
     }
 
     return render_template('hint.html',role=role, **context)
@@ -305,7 +305,7 @@ def results():
     
     avgScore = 0 
 
-    sql = "SELECT AVG(score) FROM table_name"
+    sql = "Select AVG(Cast(score as Float)) From Questions"
     cursor.execute(sql)
     avgScore = cursor.fetchall()
 
@@ -329,7 +329,7 @@ def ChekUsers():
         print("contains")
         start = True
         startTime.append(datetime.now())
-        endTime.append(datetime.now() + timedelta(minutes=20))
+        endTime.append(datetime.now() + timedelta(minutes=2))
     return jsonify(start)
 
 @app.route('/timer')

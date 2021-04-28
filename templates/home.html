@@ -55,17 +55,22 @@
 
         if(json_data['timeUp'])
         {
-          clearInterval(intervalId2);
+          
           $("#timerDiv").empty();
           $("#timerDiv").append("<br/><strong> <h1> Time Up !!! </strong> </h1><br/> ");
           $("#timeField").val("timeUp");
           alert('Time Up !');
           
-          var mainDiv = document.getElementById('mainDiv');
+          var mainDivEle = document.getElementById('mainDiv');
+          mainDivEle.style.visibility = 'hidden';
+
+          var exitDivEle = document.getElementById('exitDiv');
+          exitDivEle.style.visibility = 'visible';
+
+          var elem = document.getElementById('navDiv');
           elem.style.visibility = 'hidden';
 
-          var exitDiv = document.getElementById('exitDiv');
-          elem.style.visibility = 'visible';
+          clearInterval(intervalId2);
           
         }
 
@@ -84,7 +89,7 @@
       <input type="hidden" id="timeField" name="timeField" value="" />
 
       <div id="exitDiv" style="visibility:  hidden;">
-        <a href="{{ url_for('results', role=role) }}">View Results </a>
+       <h1><a href="{{ url_for('results', role=role) }}">View Results </a> </h1> 
       </div>
 
       <div id="mainDiv" style="visibility:  visible;">

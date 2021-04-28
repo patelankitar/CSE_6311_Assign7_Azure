@@ -100,23 +100,34 @@ def ask(role):
 @app.route('/answer/<int:question_id>/<string:role>', methods=['GET', 'POST'])
 def answer(question_id,role):
     #question = Question.query.get_or_404(question_id)
-
+    print("here")
+    print(request.form.get("submitBtn"))
     if request.method == 'POST':
         if request.form.get("submitBtn"):
+            print("Button clicked ")
             answer = request.form['answer']
-            
-            sql = "Update [dbo].[Questions] set answer = "+answer+" where id = " + str(question_id)
+            print(answer)
+
+            # sql = "Update [dbo].[Questions] set answer = "+answer+" where id = " + str(question_id)
+            # print(sql)
+            # cursor.execute(sql)
+            # cursor.commit()
+
+            sql = "Update [dbo].[Questions] set answer = ? where id = ?"
+            val = (''+answer,question_id)
             print(sql)
-            cursor.execute(sql)
+            cursor.execute(sql,val)
             cursor.commit()
-            
         elif(request.form.get("hintBtn")):
             sql = "Update [dbo].[Questions] set hint_requested = 1 where id = " + str(question_id)
             cursor.execute(sql)
             cursor.commit()
         else:
-            print("")
+            answer = request.form['answer']
+            print(answer)
+            print("Nothing here !!")
         
+        print("Navigating to home now")
         sql = "Select * from [dbo].[Questions] where answer != '' "
         cursor.execute(sql)
         questions = cursor.fetchall()
@@ -137,8 +148,6 @@ def answer(question_id,role):
     sql = "Select * from [dbo].[Questions] where id = " + str(question_id)
     cursor.execute(sql)
     questions =  cursor.fetchall()
-
-    #Question = 
 
     print(question)
     context = {
@@ -174,7 +183,7 @@ def score(question_id,role):
     if request.method == 'POST':
         score = request.form['score']
         
-        sql = "Update [dbo].[Questions] set score = "+score+" where id = " + question_id
+        sql = "Update [dbo].[Questions] set score = "+score+" where id = " + str(question_id)
         cursor.execute(sql)
         cursor.commit()
 
@@ -190,13 +199,15 @@ def score(question_id,role):
 
     else : 
         # GET Method 
-        sql = "Select * from [dbo].[Questions] where id = " + question_id
+        sql = "Select * from [dbo].[Questions] where id = " + str(question_id)
         cursor.execute(sql)
-        question = cursor.fetchall()
+        questions = cursor.fetchall()
         
         context = {
-            'question' : question
+            'questions' : questions
         }
+        print(question_id)
+        print(question)
 
         return render_template('score.html',question_id=question_id,role=role, **context)
 
@@ -318,7 +329,7 @@ def ChekUsers():
         print("contains")
         start = True
         startTime.append(datetime.now())
-        endTime.append(datetime.now() + timedelta(minutes=2))
+        endTime.append(datetime.now() + timedelta(minutes=20))
     return jsonify(start)
 
 @app.route('/timer')
